@@ -1,0 +1,49 @@
+.signup {
+  background-color: darken($color-green, 25);
+  // background-color: #fff;
+  height: 100vh;
+  position: relative;
+  width: 100vw;
+
+  &__items-container {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    width: 70%;
+    @include clearfix;
+    height: 61.5rem;
+  }
+  // color: red;
+
+  .signup--form {
+    float: left;
+    height: 100%;
+  }
+
+  &__image {
+    background-image: url("/src/assets/images/boy-in-cart.jpg");
+    background-size: cover;
+    float: left;
+    height: 100%;
+    width: 30%;
+  }
+  &__stats {
+    background-color: #000;
+    width: 70%;
+    height: 25%;
+    padding: 2rem;
+    margin: 0 auto;
+
+    color: white;
+    margin-top: 100%;
+    &-primary-text {
+      font-size: 1.8rem;
+      font-weight: 400;
+    }
+    &-secondary-text {
+      font-weight: 300;
+      font-size: 1.5rem;
+    }
+  }
+}

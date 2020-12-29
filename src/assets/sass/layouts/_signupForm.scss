@@ -1,0 +1,30 @@
+$gutter-horizontal: 5rem;
+
+.signup--form {
+  text-align: center;
+  background-color: $color-light-grey;
+  width: 45%;
+  padding: 6rem;
+  border-radius: 1rem;
+
+  .primary-text {
+    font-size: 4rem;
+    font-weight: 400;
+  }
+  .secondary-text {
+    font-size: 2rem;
+    font-weight: 200;
+  }
+
+  .input {
+    padding: 2rem;
+    // font-size: 1.5rem;
+
+    &--inline {
+      width: calc((100% - #{$gutter-horizontal}) / 2);
+      &:not(:last-child) {
+        margin-right: $gutter-horizontal;
+      }
+    }
+  }
+}

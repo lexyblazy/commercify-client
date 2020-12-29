@@ -1,0 +1,211 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+html {
+  font-size: 62.5%; }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+body {
+  font-family: "Lato", sans-serif; }
+
+.margin-right-2 {
+  margin-right: 2rem; }
+
+.margin-right-4 {
+  margin-right: 4rem; }
+
+.margin-top-2 {
+  margin-top: 2rem; }
+
+.margin-top-4 {
+  margin-top: 4rem; }
+
+.margin-bottom-2 {
+  margin-bottom: 2rem; }
+
+.margin-bottom-4 {
+  margin-bottom: 4rem; }
+
+.btn {
+  padding: 1.5rem 2rem;
+  border: 1px solid white;
+  color: white;
+  font-size: 1.8rem;
+  border-radius: 0.5rem;
+  letter-spacing: 1px;
+  font-weight: 800;
+  transition: all 0.2s; }
+  .btn--block {
+    display: block;
+    width: 100%; }
+  .btn--green {
+    background-color: #107360; }
+  .btn--disabled {
+    background-color: #777; }
+
+.input {
+  padding: 1rem;
+  font-size: 1.5rem;
+  color: #777;
+  border: 1px solid #16a085;
+  border-radius: 0.5rem;
+  font-weight: 100; }
+  .input--block {
+    display: block;
+    width: 100%; }
+  .input--error {
+    border: 1px solid red; }
+
+.loader {
+  border: 1rem solid #d5d8da;
+  border-top: 1rem solid #073028;
+  border-bottom: 1rem solid #073028;
+  border-radius: 50%;
+  animation: spin 2s linear infinite; }
+  .loader--large {
+    width: 15rem;
+    height: 15rem; }
+  .loader--medium {
+    width: 10rem;
+    height: 10rem; }
+  .loader--small {
+    width: 5rem;
+    height: 5rem;
+    border-width: 0.5rem;
+    border-top-width: 0.5rem;
+    border-bottom-width: 0.5rem; }
+  .loader--center {
+    margin: 0 auto;
+    margin-top: 40%; }
+  .loader__container {
+    width: 100%;
+    height: 100%; }
+
+.notification {
+  display: block;
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  text-align: center;
+  font-size: 2rem;
+  text-transform: capitalize;
+  transform: translateX(-50%);
+  padding: 2rem;
+  width: 33%;
+  background-color: #fff;
+  border-radius: 10px; }
+  .notification--error {
+    border: 1px solid #c23616;
+    color: #c23616; }
+  .notification__close-icon {
+    float: right;
+    padding: 0 1rem;
+    font-weight: 900;
+    color: #c23616; }
+  .notification::after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.header {
+  height: 50vh;
+  width: 100vw; }
+  .header::after {
+    content: "";
+    display: table;
+    clear: both; }
+  .header__main {
+    background-color: #fbf7ed;
+    height: 100%;
+    float: left;
+    width: 50%;
+    padding: 12.5rem 10rem; }
+    .header__main-text {
+      font-size: 5rem;
+      font-weight: 900;
+      color: #107360;
+      margin-bottom: 4rem; }
+  .header__signup {
+    margin-bottom: 2rem;
+    width: 100%; }
+  .header__input {
+    margin-right: 2rem;
+    height: 5rem;
+    width: 70%; }
+  .header__image {
+    height: 100%;
+    width: 50%;
+    background-image: url("/src/assets/images/sell-online.jpg");
+    background-size: cover;
+    float: left; }
+  .header__small {
+    font-weight: 300;
+    font-size: 1.2rem; }
+
+.signup--form {
+  text-align: center;
+  background-color: #f0f1f2;
+  width: 45%;
+  padding: 6rem;
+  border-radius: 1rem; }
+  .signup--form .primary-text {
+    font-size: 4rem;
+    font-weight: 400; }
+  .signup--form .secondary-text {
+    font-size: 2rem;
+    font-weight: 200; }
+  .signup--form .input {
+    padding: 2rem; }
+    .signup--form .input--inline {
+      width: calc((100% - 5rem) / 2); }
+      .signup--form .input--inline:not(:last-child) {
+        margin-right: 5rem; }
+
+.signup {
+  background-color: #073028;
+  height: 100vh;
+  position: relative;
+  width: 100vw; }
+  .signup__items-container {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    width: 70%;
+    height: 61.5rem; }
+    .signup__items-container::after {
+      content: "";
+      display: table;
+      clear: both; }
+  .signup .signup--form {
+    float: left;
+    height: 100%; }
+  .signup__image {
+    background-image: url("/src/assets/images/boy-in-cart.jpg");
+    background-size: cover;
+    float: left;
+    height: 100%;
+    width: 30%; }
+  .signup__stats {
+    background-color: #000;
+    width: 70%;
+    height: 25%;
+    padding: 2rem;
+    margin: 0 auto;
+    color: white;
+    margin-top: 100%; }
+    .signup__stats-primary-text {
+      font-size: 1.8rem;
+      font-weight: 400; }
+    .signup__stats-secondary-text {
+      font-weight: 300;
+      font-size: 1.5rem; }

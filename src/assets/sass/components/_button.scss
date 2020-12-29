@@ -1,0 +1,22 @@
+.btn {
+  padding: 1.5rem 2rem;
+
+  border: 1px solid white;
+  color: white;
+  font-size: 1.8rem;
+  border-radius: 0.5rem;
+  letter-spacing: 1px;
+  font-weight: 800;
+  transition: all 0.2s;
+
+  &--block {
+    display: block;
+    width: 100%;
+  }
+  &--green {
+    background-color: darken($color-green, 10);
+  }
+  &--disabled {
+    background-color: $color-dark-grey;
+  }
+}

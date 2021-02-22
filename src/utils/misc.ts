@@ -9,3 +9,10 @@ export const getUrlParams = () => {
 
   return queryParams;
 };
+
+export const sleep = async (ms: number) => {
+  /**@param ms  Number of milliSeconds */
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};

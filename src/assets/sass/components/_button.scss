@@ -17,6 +17,6 @@
     background-color: darken($color-green, 10);
   }
   &--disabled {
-    background-color: $color-dark-grey;
+    background-color: lighten($color-grey-dark, 20);
   }
 }

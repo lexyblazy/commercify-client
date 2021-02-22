@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
 import * as apis from "../apis";
@@ -25,8 +26,10 @@ export const SignupForm = ({ styles, handleNotification }: SingupProps) => {
     lastName: "",
     touched: false,
   });
+  const history = useHistory();
 
   useEffect(() => {
+    utils.sleep(3000);
     const urlParams = utils.getUrlParams();
     if (urlParams.email) {
       setState({ ...state, email: urlParams.email });
@@ -49,7 +52,9 @@ export const SignupForm = ({ styles, handleNotification }: SingupProps) => {
     });
 
     if (response && response.ok && response.data) {
-      console.log(response.data);
+      utils.auth.save(response.data);
+      await utils.sleep(1000);
+      history.push("/dashboard");
     } else {
       utils.api.handleErrors({
         response,
@@ -82,9 +87,7 @@ export const SignupForm = ({ styles, handleNotification }: SingupProps) => {
   return (
     <form className="signup--form" style={styles} onSubmit={handleSubmit}>
       {loading ? (
-        <div className="loader__container">
-          <Loader size="medium" />
-        </div>
+        <Loader size="medium" withContainer center />
       ) : (
         <>
           <h1 className="primary-text margin-bottom-2">

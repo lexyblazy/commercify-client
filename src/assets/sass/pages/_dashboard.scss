@@ -1,0 +1,105 @@
+.dashboard {
+  height: 100vh;
+
+  &-sidebar {
+    height: 100%;
+    background-color: darken($color-green, 20);
+    width: 15%;
+    padding: 10rem 0;
+    float: left;
+
+    h3 {
+      color: $color-white;
+    }
+
+    &__menu-items {
+      list-style: none;
+      padding: 1rem;
+    }
+
+    &__menu-item {
+      transition: all 0.2s;
+      font-size: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      cursor: pointer;
+      color: $color-grey-light-1;
+
+      &:hover {
+        color: darken($color-green, 25);
+        border: 1px solid $color-white;
+        background-color: $color-white;
+      }
+
+      &--active {
+        color: darken($color-green, 25);
+        background-color: $color-white;
+        font-weight: 700;
+        font-size: 1.55rem;
+        border-radius: 5rem;
+      }
+    }
+  }
+
+  &-main {
+    width: 85%;
+    height: 100%;
+    float: right;
+    padding: 2rem 4rem;
+
+    &__navigation {
+      // background: red;
+      &--right {
+        float: right;
+      }
+      &--heading-text {
+        display: inline-block;
+        font-size: 2rem;
+        padding: 1rem;
+        font-weight: 300;
+        // color: darken(, 50);
+        // vertical-align: center;
+        color: $color-grey-dark;
+      }
+      &--search {
+        border: 1px solid $color-white;
+        font-size: 1.3rem;
+        font-weight: 900;
+        padding: 1.5rem 2rem;
+        border-top-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        background-color: $color-grey-light-3;
+        width: 30rem;
+        color: $color-grey-dark;
+      }
+
+      &--notification {
+        margin-left: 1rem;
+        font-size: 1.5rem;
+        padding: 1.5rem 2rem;
+        background-color: $color-grey-light-3;
+        border-top-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        position: relative;
+
+        &-badge {
+          // width: 25%;
+          // height: 25%;
+          display: inline-block;
+          background-color: #ff3300;
+          position: absolute;
+          right: -4px;
+          top: -3px;
+          border-radius: 5rem;
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+      }
+
+      &--avatar {
+      }
+    }
+  }
+
+  @include clearfix;
+}

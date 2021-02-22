@@ -1,7 +1,25 @@
 .loader {
-  border: 1rem solid darken($color-light-grey, 10);
-  border-top: 1rem solid darken($color-green, 25);
-  border-bottom: 1rem solid darken($color-green, 25);
+  &__container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  border: 1rem solid darken($color-grey-light-3, 10);
+  border-top: 1rem solid darken($color-grey-light-1, 25);
+  border-bottom: 1rem solid darken($color-grey-light-2, 25);
+
+  &--green {
+    border-top: 1rem solid darken($color-green, 25);
+    border-bottom: 1rem solid darken($color-green, 25);
+  }
+
+  &--grey {
+    border-top: 1rem solid darken($color-grey-light-1, 25);
+    border-bottom: 1rem solid darken($color-grey-light-2, 25);
+  }
 
   border-radius: 50%;
 
@@ -23,15 +41,5 @@
     border-width: 0.5rem;
     border-top-width: 0.5rem;
     border-bottom-width: 0.5rem;
-  }
-  &--center {
-    margin: 0 auto;
-    margin-top: 40%;
-  }
-
-  &__container {
-    width: 100%;
-    height: 100%;
-    // background-color: red;
   }
 }

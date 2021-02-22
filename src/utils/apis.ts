@@ -1,6 +1,6 @@
 import { ApiResponse } from "apisauce";
 
-// TODO -the alerts are temporary for time being, 
+// TODO - the alerts are temporary for time being, 
 // the ideal plan is have some globally available Toast/SnackBar that will be used to show network/server errors
 export const handleErrors = async <T, U = T>({
   response,

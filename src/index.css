@@ -39,8 +39,14 @@ body {
 .margin-top-4 {
   margin-top: 4rem; }
 
+.margin-bottom-1 {
+  margin-bottom: 1rem; }
+
 .margin-bottom-2 {
   margin-bottom: 2rem; }
+
+.margin-bottom-3 {
+  margin-bottom: 3rem; }
 
 .margin-bottom-4 {
   margin-bottom: 4rem; }
@@ -69,12 +75,14 @@ body {
   padding: 1rem;
   font-size: 1.5rem;
   color: #777;
-  border: 1px solid #16a085;
+  border: 1px solid #f7f7f7;
   border-radius: 0.5rem;
   font-weight: 100; }
   .input--block {
     display: block;
     width: 100%; }
+  .input--success {
+    border: 1px solid #16a085; }
   .input--error {
     border: 1px solid red; }
 
@@ -135,6 +143,21 @@ body {
     display: table;
     clear: both; }
 
+.card {
+  background-color: #fff;
+  padding: 4rem;
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1); }
+  .card__label {
+    font-size: 1.5rem;
+    display: block; }
+  .card__input {
+    width: 100%;
+    border-color: #f0f1f2; }
+  .card__textarea {
+    width: 100%;
+    resize: none;
+    border-color: #f0f1f2; }
+
 .header {
   height: 50vh;
   width: 100vw; }
@@ -177,10 +200,10 @@ body {
   padding: 6rem;
   border-radius: 1rem; }
   .signup--form .primary-text {
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: 400; }
   .signup--form .secondary-text {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 200; }
   .signup--form .input {
     padding: 2rem; }
@@ -190,7 +213,7 @@ body {
         margin-right: 5rem; }
 
 .signup {
-  background-color: #073028;
+  background-color: #0d5d4d;
   height: 100vh;
   position: relative;
   width: 100vw; }
@@ -233,12 +256,16 @@ body {
   height: 100vh; }
   .dashboard-sidebar {
     height: 100%;
-    background-color: #0a463a;
+    background-color: #0d5d4d;
     width: 15%;
-    padding: 10rem 0;
-    float: left; }
+    padding: 5rem 0;
+    float: left;
+    position: fixed; }
     .dashboard-sidebar h3 {
-      color: #fff; }
+      color: #fff;
+      font-size: 1.6rem;
+      letter-spacing: 1px;
+      text-transform: uppercase; }
     .dashboard-sidebar__menu-items {
       list-style: none;
       padding: 1rem; }
@@ -262,44 +289,100 @@ body {
   .dashboard-main {
     width: 85%;
     height: 100%;
-    float: right;
-    padding: 2rem 4rem; }
-    .dashboard-main__navigation--right {
-      float: right; }
-    .dashboard-main__navigation--heading-text {
-      display: inline-block;
-      font-size: 2rem;
-      padding: 1rem;
-      font-weight: 300;
-      color: #777; }
-    .dashboard-main__navigation--search {
-      border: 1px solid #fff;
-      font-size: 1.3rem;
-      font-weight: 900;
-      padding: 1.5rem 2rem;
-      border-top-left-radius: 1rem;
-      border-bottom-right-radius: 1rem;
-      background-color: #f0f1f2;
-      width: 30rem;
-      color: #777; }
-    .dashboard-main__navigation--notification {
-      margin-left: 1rem;
-      font-size: 1.5rem;
-      padding: 1.5rem 2rem;
-      background-color: #f0f1f2;
-      border-top-left-radius: 1rem;
-      border-bottom-right-radius: 1rem;
-      position: relative; }
-      .dashboard-main__navigation--notification-badge {
+    float: right; }
+    .dashboard-main__navigation {
+      padding: 2rem 0.25rem;
+      background-color: white;
+      position: fixed;
+      width: 85%;
+      border-bottom: 1px solid #f0f1f2; }
+      .dashboard-main__navigation--right {
+        padding: 0 4rem;
+        float: right; }
+      .dashboard-main__navigation--heading-text {
         display: inline-block;
-        background-color: #ff3300;
-        position: absolute;
-        right: -4px;
-        top: -3px;
-        border-radius: 5rem;
-        width: 1.25rem;
-        height: 1.25rem; }
+        font-size: 2rem;
+        padding: 1rem 4rem;
+        font-weight: 300;
+        color: #777; }
+      .dashboard-main__navigation--search {
+        border: 1px solid #fff;
+        font-size: 1.3rem;
+        font-weight: 500;
+        padding: 1.5rem 2rem;
+        border-top-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        background-color: #f0f1f2;
+        width: 30rem;
+        color: #777; }
+      .dashboard-main__navigation--notification {
+        margin-left: 1rem;
+        font-size: 1.5rem;
+        padding: 1.5rem 2rem;
+        background-color: #f0f1f2;
+        border-top-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        position: relative; }
+        .dashboard-main__navigation--notification-badge {
+          display: inline-block;
+          background-color: #138a72;
+          position: absolute;
+          right: -4px;
+          top: -3px;
+          border-radius: 5rem;
+          width: 1.25rem;
+          height: 1.25rem; }
+    .dashboard-main__content {
+      margin-top: 7.5rem; }
   .dashboard::after {
     content: "";
     display: table;
     clear: both; }
+
+.products {
+  background-color: rgba(119, 119, 119, 0.1);
+  width: 100%;
+  min-height: 80%;
+  padding-top: 5rem; }
+  .products__plus-button {
+    padding: 1.5rem 1.7rem;
+    font-size: 2rem;
+    display: inline-block;
+    color: #fff;
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    background-color: #0d5d4d;
+    box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.4);
+    transition: all 0.2s; }
+    .products__plus-button--fixed {
+      position: fixed;
+      bottom: 5rem;
+      right: 6rem; }
+    .products__plus-button:hover {
+      transform: translateY(-2px) scale(1.2); }
+    .products__plus-button:active {
+      transform: translateY(0) scale(1.2);
+      box-shadow: 0 1.5rem 2rem rgba(0, 0, 0, 0.5); }
+  .products__create-form {
+    width: 50%;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    color: #777; }
+    .products__create-form--image-upload {
+      min-height: 20rem; }
+      .products__create-form--image-upload .image-upload-header::after {
+        content: "";
+        display: table;
+        clear: both; }
+      .products__create-form--image-upload .image-upload-label {
+        float: left;
+        font-size: 1.5rem; }
+      .products__create-form--image-upload input[type="file"] {
+        display: none; }
+      .products__create-form--image-upload .file-input {
+        float: right;
+        color: #16a085;
+        cursor: pointer; }
+        .products__create-form--image-upload .file-input:hover {
+          text-decoration: underline; }

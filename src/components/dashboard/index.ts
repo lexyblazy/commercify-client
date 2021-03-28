@@ -1,2 +1,3 @@
 export * from "./OrdersList";
-export * from "./ProductsList";
+export * from "./Products";
+export * from "./ProductCreate";

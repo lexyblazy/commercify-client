@@ -3,6 +3,7 @@ interface MerchantSignupParams {
   firstName: string;
   lastName: string;
   password: string;
+  storeName: string;
 }
 
 interface MerchantSignupResponse {
@@ -16,6 +17,8 @@ interface Merchant {
   firstName: string;
   id: string;
   lastName: string;
+  storeName: string;
+  storeNameSlug: string;
 }
 
 interface Session {

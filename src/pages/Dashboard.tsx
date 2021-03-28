@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import _ from "lodash";
 
 import { Loader } from "../components";
-import { OrdersList, ProductsList } from "../components/dashboard";
+import { OrdersList, Products } from "../components/dashboard";
 
 import * as utils from "../utils";
 import * as apis from "../apis";
@@ -51,7 +51,7 @@ export class Dashboard extends Component {
     }
 
     if (selectedMenu === "products") {
-      return <ProductsList />;
+      return <Products />;
     }
 
     return (
@@ -71,6 +71,18 @@ export class Dashboard extends Component {
     return "";
   };
 
+  renderStoreName = (name: string | undefined) => {
+    if (!name) {
+      return "Commercify";
+    }
+
+    const MAX_NAME_CHARACTERS = 20;
+
+    return name.length > MAX_NAME_CHARACTERS
+      ? `${name.slice(0, MAX_NAME_CHARACTERS)}... `
+      : name;
+  };
+
   render() {
     const { loading, merchant } = this.state;
 
@@ -78,7 +90,8 @@ export class Dashboard extends Component {
       <div className="dashboard">
         <div className="dashboard-sidebar">
           <h3 className="heading-tertiary margin-bottom-4 center-text">
-            Commercify
+            <i className="fas fa-store"></i> &nbsp;&nbsp;&nbsp;{" "}
+            {this.renderStoreName(merchant?.storeName)}
           </h3>
           <ul className="dashboard-sidebar__menu-items">
             <li
@@ -117,7 +130,7 @@ export class Dashboard extends Component {
           </ul>
         </div>
         <div className="dashboard-main">
-          <div className="dashboard-main__navigation margin-bottom-4">
+          <div className="dashboard-main__navigation">
             <h3 className="dashboard-main__navigation--heading-text">
               Welcome, <strong>{merchant?.firstName}</strong>
             </h3>
@@ -135,11 +148,13 @@ export class Dashboard extends Component {
               </span>
             </div>
           </div>
-          {loading ? (
-            <Loader size="medium" withContainer center />
-          ) : (
-            this.renderDashboardContent()
-          )}
+          <div className="dashboard-main__content">
+            {loading ? (
+              <Loader size="medium" withContainer center />
+            ) : (
+              this.renderDashboardContent()
+            )}
+          </div>
         </div>
       </div>
     );

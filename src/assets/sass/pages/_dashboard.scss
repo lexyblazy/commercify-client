@@ -3,13 +3,17 @@
 
   &-sidebar {
     height: 100%;
-    background-color: darken($color-green, 20);
+    background-color: darken($color-green, 15);
     width: 15%;
-    padding: 10rem 0;
+    padding: 5rem 0;
     float: left;
+    position: fixed;
 
     h3 {
       color: $color-white;
+      font-size: 1.6rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
     &__menu-items {
@@ -45,26 +49,32 @@
     width: 85%;
     height: 100%;
     float: right;
-    padding: 2rem 4rem;
+    // padding: 2rem 0;
+    // background-color: $color-grey-light-1;
 
     &__navigation {
-      // background: red;
+      padding: 2rem 0.25rem;
+      //=== a fixed navigation
+      background-color: white;
+      position: fixed;
+      width: 85%;
+      border-bottom: 1px solid $color-grey-light-3;
+      //=====
       &--right {
+        padding: 0 4rem;
         float: right;
       }
       &--heading-text {
         display: inline-block;
         font-size: 2rem;
-        padding: 1rem;
+        padding: 1rem 4rem;
         font-weight: 300;
-        // color: darken(, 50);
-        // vertical-align: center;
         color: $color-grey-dark;
       }
       &--search {
         border: 1px solid $color-white;
         font-size: 1.3rem;
-        font-weight: 900;
+        font-weight: 500;
         padding: 1.5rem 2rem;
         border-top-left-radius: 1rem;
         border-bottom-right-radius: 1rem;
@@ -86,7 +96,7 @@
           // width: 25%;
           // height: 25%;
           display: inline-block;
-          background-color: #ff3300;
+          background-color: darken($color-green, 5);
           position: absolute;
           right: -4px;
           top: -3px;
@@ -98,6 +108,10 @@
 
       &--avatar {
       }
+    }
+
+    &__content {
+      margin-top: 7.5rem;
     }
   }
 

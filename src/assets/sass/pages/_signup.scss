@@ -1,5 +1,5 @@
 .signup {
-  background-color: darken($color-green, 25);
+  background-color: darken($color-green, 15);
   // background-color: #fff;
   height: 100vh;
   position: relative;
@@ -14,7 +14,6 @@
     @include clearfix;
     height: 61.5rem;
   }
-  // color: red;
 
   .signup--form {
     float: left;

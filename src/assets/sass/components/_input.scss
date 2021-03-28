@@ -2,13 +2,17 @@
   padding: 1rem;
   font-size: 1.5rem;
   color: $color-grey-dark;
-  border: 1px solid $color-green;
+  border: 1px solid $color-grey-light-1;
   border-radius: 0.5rem;
   font-weight: 100;
 
   &--block {
     display: block;
     width: 100%;
+  }
+
+  &--success {
+    border: 1px solid $color-green;
   }
 
   &--error {

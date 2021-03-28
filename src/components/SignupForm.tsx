@@ -9,7 +9,7 @@ import { Button } from "./Button";
 import { Loader } from "./Loader";
 import { NotificationType } from "./Notification";
 
-interface SingupProps {
+interface SignupProps {
   styles?: Object;
   handleNotification: (params: {
     message: string;
@@ -18,18 +18,18 @@ interface SingupProps {
   }) => void;
 }
 
-export const SignupForm = ({ styles, handleNotification }: SingupProps) => {
+export const SignupForm = ({ styles, handleNotification }: SignupProps) => {
   const [state, setState] = useState({
     email: "",
     password: "",
     firstName: "",
     lastName: "",
     touched: false,
+    storeName: "",
   });
   const history = useHistory();
 
   useEffect(() => {
-    utils.sleep(3000);
     const urlParams = utils.getUrlParams();
     if (urlParams.email) {
       setState({ ...state, email: urlParams.email });
@@ -42,13 +42,14 @@ export const SignupForm = ({ styles, handleNotification }: SingupProps) => {
     e.preventDefault();
     setLoading(true);
 
-    const { email, password, firstName, lastName } = state;
+    const { email, password, firstName, lastName, storeName } = state;
 
     const response = await apis.merchants.signup({
       email,
       password,
       firstName,
       lastName,
+      storeName,
     });
 
     if (response && response.ok && response.data) {
@@ -73,7 +74,11 @@ export const SignupForm = ({ styles, handleNotification }: SingupProps) => {
   };
 
   const hasEmptyField =
-    !state.email || !state.password || !state.firstName || !state.lastName;
+    !state.email ||
+    !state.password ||
+    !state.firstName ||
+    !state.lastName ||
+    !state.storeName;
   const isValidEmail = utils.email.validate(state.email);
 
   const disabled = hasEmptyField || !isValidEmail || loading;
@@ -81,6 +86,7 @@ export const SignupForm = ({ styles, handleNotification }: SingupProps) => {
   const passwordFieldError = !state.password && state.touched;
   const firstNameFieldError = !state.firstName && state.touched;
   const lastNameFieldError = !state.lastName && state.touched;
+  const storeNameFieldError = !state.storeName && state.touched;
 
   // const emailFieldError = state.email && state.touched && !isValidEmail;
 
@@ -120,6 +126,19 @@ export const SignupForm = ({ styles, handleNotification }: SingupProps) => {
               setState({ ...state, touched: true, password: e.target.value })
             }
           />
+
+          <input
+            className={`input input--block margin-bottom-2 ${
+              storeNameFieldError ? "input--error" : ""
+            }`}
+            placeholder="Your store name"
+            type="text"
+            value={state.storeName}
+            onChange={(e) =>
+              setState({ ...state, touched: true, storeName: e.target.value })
+            }
+          />
+
           <div className="margin-bottom-4">
             <input
               className={`input input--inline ${

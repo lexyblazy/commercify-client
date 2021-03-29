@@ -54,6 +54,17 @@ body {
 .center-text {
   text-align: center; }
 
+.left-to-right-container::after {
+  content: "";
+  display: table;
+  clear: both; }
+
+.left-to-right-container .left {
+  float: left; }
+
+.left-to-right-container .right {
+  float: right; }
+
 .btn {
   padding: 1.5rem 2rem;
   border: 1px solid white;
@@ -146,17 +157,24 @@ body {
 .card {
   background-color: #fff;
   padding: 4rem;
-  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1); }
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem; }
   .card__label {
-    font-size: 1.5rem;
     display: block; }
+    .card__label--inline {
+      display: inline-block; }
   .card__input {
     width: 100%;
-    border-color: #f0f1f2; }
+    border-color: rgba(119, 119, 119, 0.3); }
+    .card__input--with-group {
+      width: 85%; }
   .card__textarea {
     width: 100%;
     resize: none;
-    border-color: #f0f1f2; }
+    border-color: rgba(119, 119, 119, 0.3);
+    font-size: 1.6rem;
+    font-family: inherit;
+    font-weight: 300; }
 
 .header {
   height: 50vh;
@@ -340,6 +358,7 @@ body {
     clear: both; }
 
 .products {
+  overflow-y: auto;
   background-color: rgba(119, 119, 119, 0.1);
   width: 100%;
   min-height: 80%;
@@ -371,18 +390,53 @@ body {
     color: #777; }
     .products__create-form--image-upload {
       min-height: 20rem; }
-      .products__create-form--image-upload .image-upload-header::after {
-        content: "";
-        display: table;
-        clear: both; }
-      .products__create-form--image-upload .image-upload-label {
-        float: left;
-        font-size: 1.5rem; }
       .products__create-form--image-upload input[type="file"] {
         display: none; }
       .products__create-form--image-upload .file-input {
-        float: right;
         color: #16a085;
         cursor: pointer; }
         .products__create-form--image-upload .file-input:hover {
           text-decoration: underline; }
+    .products__create-form--input-row-col-1-of-2 {
+      float: left;
+      width: calc((100% - 2rem) / 2); }
+      .products__create-form--input-row-col-1-of-2:not(:last-child) {
+        margin-right: 2rem; }
+    .products__create-form--input-row::after {
+      content: "";
+      display: table;
+      clear: both; }
+    .products__create-form__variants .add-variant {
+      color: #16a085;
+      cursor: pointer; }
+      .products__create-form__variants .add-variant:hover {
+        text-decoration: underline; }
+    .products__create-form__variants-row::after {
+      content: "";
+      display: table;
+      clear: both; }
+    .products__create-form__variants-row > div {
+      float: left; }
+      .products__create-form__variants-row > div:not(:last-child) {
+        margin-right: 5%; }
+    .products__create-form__variants-row .variant-option-name {
+      width: 25%; }
+    .products__create-form__variants-row .variant-option-value {
+      width: 50%; }
+    .products__create-form__variants-row .variant-option-trash {
+      font-size: 1.25rem;
+      padding: 1rem 1.5rem;
+      color: rgba(119, 119, 119, 0.5);
+      border: 1px solid rgba(119, 119, 119, 0.3);
+      border-radius: 5px; }
+    .products__create-form__variants .btn {
+      color: inherit;
+      font-size: inherit;
+      font-weight: inherit; }
+    .products__create-form__actions--cancel .btn {
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit; }
+    .products__create-form__actions--submit .btn {
+      font-size: inherit;
+      font-weight: inherit; }

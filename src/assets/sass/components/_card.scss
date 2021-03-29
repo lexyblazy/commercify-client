@@ -1,29 +1,34 @@
 $gutter: 2rem;
+$card-input-border-color: rgba($color-grey-dark, 0.3);
 
 .card {
   background-color: $color-white;
   padding: 4rem;
   box-shadow: 0 0.5rem 1.25rem rgba($color-black, 0.1);
 
+  font-size: 1.5rem;
   &__label {
-    font-size: 1.5rem;
     display: block;
+
+    &--inline {
+      display: inline-block;
+    }
   }
 
   &__input {
     width: 100%;
-    border-color: $color-grey-light-3;
+    border-color: $card-input-border-color;
 
-    // &--inline {
-    //   width: calc((100% - #{$gutter}) / 2);
-    //   &:not(:last-child) {
-    //     margin-right: $gutter;
-    //   }
-    // }
+    &--with-group {
+      width: 85%;
+    }
   }
   &__textarea {
     width: 100%;
     resize: none;
-    border-color: $color-grey-light-3;
+    border-color: $card-input-border-color;
+    font-size: 1.6rem;
+    font-family: inherit;
+    font-weight: 300;
   }
 }

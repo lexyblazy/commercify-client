@@ -42,3 +42,16 @@
 .center-text {
   text-align: center;
 }
+
+
+.left-to-right-container {
+  @include clearfix;
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: right;
+  }
+}

@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const Products = ({ isActive }: Props) => {
-  const [showForm, setState] = useState(false);
+  const [showForm, setState] = useState(true);
 
   return (
     <div className="products">

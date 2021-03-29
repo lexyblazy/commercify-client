@@ -1,6 +1,8 @@
+$input-gutter-spacing: 2rem;
+
 .products {
   // overflow-x: visible;
-  // overflow-y: scroll;
+  overflow-y: auto;
   background-color: rgba($color-grey-dark, 0.1);
 
   width: 100%;
@@ -44,26 +46,117 @@
     &--image-upload {
       min-height: 20rem;
 
-      .image-upload-header {
-        @include clearfix;
-      }
-
-      .image-upload-label {
-        float: left;
-        font-size: 1.5rem;
-      }
-
       input[type="file"] {
         display: none;
       }
 
       .file-input {
-        float: right;
         color: $color-green;
         cursor: pointer;
 
         &:hover {
           text-decoration: underline;
+        }
+      }
+    }
+
+    &--input-row {
+      &-col-1-of-2 {
+        float: left;
+        width: calc((100% - #{$input-gutter-spacing}) / 2);
+        &:not(:last-child) {
+          margin-right: $input-gutter-spacing;
+        }
+      }
+
+      // &-col-1-of-3 {
+      //   float: left;
+      //   width: calc((100% - 2 * #{$input-gutter-spacing}) / 3);
+
+      //   &:not(:last-child) {
+      //     margin-right: $input-gutter-spacing;
+      //   }
+      // }
+
+      // &-col-2-of-3 {
+      //   float: left;
+      //   width: calc(
+      //     2 * ((100% - 2 * #{$input-gutter-spacing}) / 3) + #{$input-gutter-spacing}
+      //   );
+      // }
+
+      @include clearfix;
+    }
+
+    &__pricing {
+      // background-color: red;
+    }
+
+    &__inventory {
+      input[type="checkbox"] {
+        // display: none;
+      }
+    }
+
+    &__variants {
+      .add-variant {
+        color: $color-green;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      &-row {
+        @include clearfix;
+
+        & > div {
+          // display: inline-block;
+          float: left;
+          &:not(:last-child) {
+            margin-right: 5%;
+          }
+        }
+
+        .variant-option-name {
+          width: 25%;
+        }
+
+        .variant-option-value {
+          width: 50%;
+        }
+
+        .variant-option-trash {
+          font-size: 1.25rem;
+          // height: inherit;
+          padding: 1rem 1.5rem;
+          color: rgba($color-grey-dark, 0.5);
+          border: 1px solid $card-input-border-color;
+          border-radius: 5px;
+        }
+      }
+
+      .btn {
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+      }
+    }
+
+    &__actions {
+      &--cancel {
+        .btn {
+          font-size: inherit;
+          font-weight: inherit;
+          color: inherit;
+        }
+      }
+
+      &--submit {
+        .btn {
+          font-size: inherit;
+          font-weight: inherit;
         }
       }
     }

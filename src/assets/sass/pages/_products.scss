@@ -60,6 +60,17 @@ $input-gutter-spacing: 2rem;
       }
     }
 
+    .image-upload-previewer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .image-preview {
+        padding: 1rem;
+        max-width: 45%;
+      }
+    }
+
     &--input-row {
       &-col-1-of-2 {
         float: left;

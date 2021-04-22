@@ -397,6 +397,13 @@ body {
         cursor: pointer; }
         .products__create-form--image-upload .file-input:hover {
           text-decoration: underline; }
+    .products__create-form .image-upload-previewer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap; }
+      .products__create-form .image-upload-previewer .image-preview {
+        padding: 1rem;
+        max-width: 45%; }
     .products__create-form--input-row-col-1-of-2 {
       float: left;
       width: calc((100% - 2rem) / 2); }

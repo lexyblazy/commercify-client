@@ -20,6 +20,8 @@ interface ProductCreateParams {
   sku: string;
   isPhysicalProduct: boolean;
   quantity: number | string;
+  allowOutOfStockPurchase: boolean;
+  imageUrls: string[];
 }
 
 interface ProductCreateResponse extends CommonApiError {

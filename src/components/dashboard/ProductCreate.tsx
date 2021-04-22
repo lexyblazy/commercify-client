@@ -3,9 +3,10 @@ import { nanoid } from "nanoid";
 import _ from "lodash";
 
 import * as apis from "../../apis";
+import { Loader } from "../Loader";
 
 export const ProductCreate = () => {
-  const [state, setState] = useState({
+  const [viewState, setViewState] = useState({
     isPhysicalProduct: false,
     showAddVariantsOption: true,
     showAddVariantsForm: false,
@@ -19,6 +20,7 @@ export const ProductCreate = () => {
         values: [],
       },
     },
+    imageInputTouched: false,
   });
 
   const [formState, setFormState] = useState({
@@ -30,13 +32,46 @@ export const ProductCreate = () => {
     sku: "",
     barcode: "",
     quantity: 1,
+    allowOutOfStockPurchase: false,
+    files: {} as FileList,
+    imageUrls: [] as string[],
   });
 
+  const [validationState, setValidationState] = useState([] as string[]);
+
+  const uploadImages = async (files: FileList) => {
+    const filesMetaData = Array.from(files)
+      .slice(0, 5)
+      .map(({ name, type }) => ({
+        name,
+        type,
+      }));
+
+    const response = await apis.uploads.getSignedUrl(filesMetaData);
+
+    if (!response.ok || !response.data) {
+      alert("Error");
+
+      return;
+    }
+    const signedUrls = response.data;
+
+    const uploadPromises = signedUrls.map((signedUrl, index) => {
+      return apis.uploads.uploadToS3(signedUrl, files[index]);
+    });
+
+    const result = _.compact(await Promise.all(uploadPromises));
+
+    console.log(result);
+
+    setFormState({ ...formState, imageUrls: result });
+  };
+
   const addVariantOption = () => {
-    setState({
-      ...state,
+    setViewState({
+      ...viewState,
       variantOptions: {
-        ...state.variantOptions,
+        ...viewState.variantOptions,
         [nanoid()]: {
           name: "",
           values: [],
@@ -46,9 +81,9 @@ export const ProductCreate = () => {
   };
 
   const removeVariantOption = (key: string) => {
-    setState({
-      ...state,
-      variantOptions: _.omit(state.variantOptions, key),
+    setViewState({
+      ...viewState,
+      variantOptions: _.omit(viewState.variantOptions, key),
     });
   };
 
@@ -64,26 +99,26 @@ export const ProductCreate = () => {
     fieldValue: string
   ) => {
     if (fieldName === "optionName") {
-      setState({
-        ...state,
+      setViewState({
+        ...viewState,
         variantOptions: {
-          ...state.variantOptions,
+          ...viewState.variantOptions,
           [key]: {
-            ...state.variantOptions[key],
-            name: fieldValue,
+            ...viewState.variantOptions[key],
+            name: fieldValue.trim(),
           },
         },
       });
     } else if (fieldName === "optionValue") {
       const variantOptions = {
-        ...state.variantOptions,
+        ...viewState.variantOptions,
         [key]: {
-          ...state.variantOptions[key],
-          values: fieldValue.split(","),
+          ...viewState.variantOptions[key],
+          values: fieldValue.split(",").map((val) => val.trim()),
         },
       };
-      setState({
-        ...state,
+      setViewState({
+        ...viewState,
         variantOptions,
       });
     }
@@ -96,7 +131,7 @@ export const ProductCreate = () => {
   };
 
   const renderVariantsOptions = () => {
-    const variantsOptionsKeys = Object.keys(state.variantOptions);
+    const variantsOptionsKeys = Object.keys(viewState.variantOptions);
     const variantInputs = variantsOptionsKeys.map((key) => {
       return (
         <div
@@ -109,7 +144,7 @@ export const ProductCreate = () => {
               onChange={(e) =>
                 handleOptionChange("optionName", key, e.target.value)
               }
-              value={state.variantOptions[key].name}
+              value={viewState.variantOptions[key].name}
             />
           </div>
           <div className="variant-option-value">
@@ -120,7 +155,7 @@ export const ProductCreate = () => {
               onChange={(e) =>
                 handleOptionChange("optionValue", key, e.target.value)
               }
-              value={renderOptionValues(state.variantOptions[key].values)}
+              value={renderOptionValues(viewState.variantOptions[key].values)}
             />
           </div>
 
@@ -139,9 +174,159 @@ export const ProductCreate = () => {
     return variantInputs;
   };
 
-  const handleSubmit = async () => {
-    console.log({ ...formState, isPhysicalProduct: state.isPhysicalProduct });
+  const renderFormErrors = () => {
+    const errors = validationState.map((val) => (
+      <li className="margin-bottom-1" key={nanoid()}>
+        {val}
+      </li>
+    ));
 
+    return <ul className="margin-bottom-3">{errors}</ul>;
+  };
+
+  const validate = ({
+    name,
+    description,
+    barcode,
+    sku,
+    price,
+    isPhysicalProduct,
+    quantity,
+    costPerItem,
+    imageUrls,
+  }: ProductCreateParams) => {
+    const errors = [];
+
+    const isValidPrice = !isNaN(Number(price));
+    const isValidCostPerItem = !isNaN(Number(costPerItem));
+    const isValidQuantity = !isNaN(Number(quantity));
+
+    if (!name) {
+      errors.push("Product name cannot be blank");
+    }
+
+    if (name.length < 5) {
+      errors.push("Product name must be at least 5 characters");
+    }
+
+    if (name.length > 35) {
+      errors.push("Product name cannot be longer than 35 characters");
+    }
+
+    if (!description) {
+      errors.push("Product description cannot be blank");
+    }
+
+    if (description.length < 35) {
+      errors.push("Product description must be at least 35 characters");
+    }
+
+    if (!barcode) {
+      errors.push("Barcode cannot be blank");
+    }
+
+    if (barcode.length !== 12) {
+      errors.push("Barcode must be 12 digits");
+
+      const exp = /^\d+$/;
+
+      if (!exp.test(barcode)) {
+        errors.push("Barcode must contain only digits");
+      }
+    }
+
+    if (!sku) {
+      errors.push("SKU cannot be blank");
+    }
+
+    if (!price) {
+      errors.push("Price cannot be blank");
+    }
+
+    if (price) {
+      if (!isValidPrice) {
+        errors.push("Price must be valid number");
+      }
+    }
+
+    if (!costPerItem) {
+      errors.push("Cost per item cannot be blank");
+    }
+
+    if (costPerItem) {
+      if (!isValidCostPerItem) {
+        errors.push("Cost per item must be valid number");
+      }
+    }
+
+    if (isValidPrice && isValidCostPerItem) {
+      if (Number(costPerItem) > Number(price)) {
+        errors.push("Cost per Item cannot be greater than product price");
+      }
+    }
+
+    if (isPhysicalProduct) {
+      if (!quantity) {
+        errors.push("A physical product must have a quantity");
+      }
+
+      if (quantity) {
+        if (!isValidQuantity) {
+          errors.push("Quantity must be valid number");
+        }
+
+        if (quantity < 1) {
+          errors.push("Quantity must be greater than 0");
+        }
+      }
+    }
+
+    if (imageUrls.length < 1) {
+      errors.push("A product must have at least one image");
+    }
+
+    return errors;
+  };
+
+  const handleImageInputChange = async (files: HTMLInputElement["files"]) => {
+    if (files === null || files.length < 1) {
+      return;
+    }
+
+    if (!viewState.imageInputTouched) {
+      setViewState({ ...viewState, imageInputTouched: true });
+    }
+
+    uploadImages(files);
+  };
+
+  const showImagePreview = () => {
+    // const previewUrls = Array.from(filesState).map((file) =>
+    //   URL.createObjectURL(file)
+    // );
+
+    const showLoading =
+      viewState.imageInputTouched && formState.imageUrls.length < 1;
+
+    if (showLoading) {
+      return <Loader size="small" withContainer />;
+    }
+
+    return (
+      <div className="image-upload-previewer margin-top-4">
+        {formState.imageUrls.map((url) => (
+          <img
+            key={nanoid()}
+            src={url}
+            alt="preview"
+            className="image-preview"
+          />
+        ))}
+      </div>
+    );
+  };
+
+  const handleSubmit = async () => {
     const {
       name,
       barcode,
@@ -151,22 +336,37 @@ export const ProductCreate = () => {
       comparePrice,
       costPerItem,
       price,
+      imageUrls,
     } = formState;
 
-    const response = await apis.products.create({
-      name,
-      barcode,
-      description,
-      quantity,
-      sku,
-      comparePrice,
-      costPerItem,
-      isPhysicalProduct: state.isPhysicalProduct,
-      price,
-    });
+    const params: ProductCreateParams = {
+      name: name.trim(),
+      barcode: barcode.trim(),
+      description: description.trim(),
+      sku: sku.trim(),
+      comparePrice: comparePrice ? comparePrice.trim() : comparePrice,
+      costPerItem: costPerItem.trim(),
+      isPhysicalProduct: viewState.isPhysicalProduct,
+      quantity: quantity.toString().trim(),
+      price: price.trim(),
+      allowOutOfStockPurchase: formState.allowOutOfStockPurchase,
+      imageUrls,
+    };
+
+    const errors = validate(params);
+
+    setValidationState(errors);
+
+    console.log(formState);
+
+    if (errors.length > 0) {
+      return;
+    }
+
+    const response = await apis.products.create(params);
 
     if (response && response.ok && response.data) {
-      console.log("SUccess", response.data);
+      console.log("Success", response.data);
     } else {
       console.log("Error", response.data?.error);
     }
@@ -197,10 +397,16 @@ export const ProductCreate = () => {
 
           <label htmlFor="file-upload" className="file-input right">
             Upload Image
-            <input type="file" multiple id="file-upload" />
+            <input
+              type="file"
+              multiple
+              id="file-upload"
+              accept=".jpg,.jpeg,.png"
+              onChange={(e) => handleImageInputChange(e.target.files)}
+            />
           </label>
         </div>
-        <div className="image-upload-viewer"></div>
+        {showImagePreview()}
       </div>
 
       <div className="card margin-bottom-4 products__create-form__pricing">
@@ -234,7 +440,9 @@ export const ProductCreate = () => {
 
         <div className="products__create-form--input-row products__create-form__pricing">
           <div className="products__create-form--input-row-col-1-of-2">
-            <label className="card__label margin-bottom-1">Cost Per item</label>
+            <label className="card__label margin-bottom-1">
+              Cost Per item (The cost price of this product)
+            </label>
             <input
               className="input card__input card__input"
               onChange={handleInputChange}
@@ -280,11 +488,11 @@ export const ProductCreate = () => {
               className="checkbox"
               type="checkbox"
               id="physical-product"
-              checked={state.isPhysicalProduct}
+              checked={viewState.isPhysicalProduct}
               onChange={(e) =>
-                setState({
-                  ...state,
-                  isPhysicalProduct: !state.isPhysicalProduct,
+                setViewState({
+                  ...viewState,
+                  isPhysicalProduct: !viewState.isPhysicalProduct,
                 })
               }
             ></input>{" "}
@@ -299,7 +507,7 @@ export const ProductCreate = () => {
           </div>
 
           <div className="products__create-form--input-row-col-1-of-2">
-            {state.isPhysicalProduct ? (
+            {viewState.isPhysicalProduct ? (
               <>
                 <label className="card__label margin-bottom-1">Quantity</label>
                 <input
@@ -316,9 +524,20 @@ export const ProductCreate = () => {
             )}
           </div>
         </div>
-        {state.isPhysicalProduct ? (
+        {viewState.isPhysicalProduct ? (
           <div>
-            <input type="checkbox" id="out-of-stock-purchase"></input> &nbsp;
+            <input
+              type="checkbox"
+              id="out-of-stock-purchase"
+              checked={formState.allowOutOfStockPurchase}
+              onChange={() =>
+                setFormState({
+                  ...formState,
+                  allowOutOfStockPurchase: !formState.allowOutOfStockPurchase,
+                })
+              }
+            ></input>{" "}
+            &nbsp;
             <label
               className="card__label--inline"
               htmlFor="out-of-stock-purchase"
@@ -336,14 +555,14 @@ export const ProductCreate = () => {
           <span
             className="right add-variant"
             onClick={() =>
-              setState({
-                ...state,
-                showAddVariantsOption: !state.showAddVariantsOption,
-                showAddVariantsForm: !state.showAddVariantsForm,
+              setViewState({
+                ...viewState,
+                showAddVariantsOption: !viewState.showAddVariantsOption,
+                showAddVariantsForm: !viewState.showAddVariantsForm,
               })
             }
           >
-            {state.showAddVariantsOption ? "Add variant" : "Cancel"}
+            {viewState.showAddVariantsOption ? "Add variant" : "Cancel"}
           </span>
         </div>
 
@@ -351,7 +570,7 @@ export const ProductCreate = () => {
           Add variants if this product comes in multiple versions, like
           different sizes or colors
         </p>
-        {state.showAddVariantsForm ? (
+        {viewState.showAddVariantsForm ? (
           <>
             <div className="products__create-form__variants-row margin-bottom-2">
               <div className="variant-option-name ">Option name</div>
@@ -369,10 +588,9 @@ export const ProductCreate = () => {
       </div>
 
       <div className="card margin-bottom-3 products__create-form__actions">
+        {validationState.length > 0 ? renderFormErrors() : <span />}
         <div className="left-to-right-container">
-          <div className="left products__create-form__actions--cancel">
-            <button className="btn">Cancel</button>
-          </div>
+          <div className="left products__create-form__actions--cancel"></div>
           <div className="right products__create-form__actions--submit">
             <button className="btn btn--green" onClick={handleSubmit}>
               Add Product
